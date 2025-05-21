@@ -1,10 +1,10 @@
 /**
  * linked_list.c
- * Copyright (c) 2025 MVK
+ * Copyright (c) 2025 Vinodh Kumar Markapuram <GreenHex@gmail.com>
  * 17-May-2025
  *
- * Duplicates not allowed.
- * Can't handle strings, by themselves or in struct.
+ * - Duplicates not allowed.
+ * - Can't handle strings, by themselves or in struct.
  *
  */
 

@@ -1,6 +1,6 @@
 /**
  * linked_list.h
- * Copyright (c) 2025 MVK
+ * Copyright (c) 2025 Vinodh Kumar Markapuram <GreenHex@gmail.com>
  * 17-May-2025
  *
  */
