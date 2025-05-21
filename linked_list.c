@@ -201,13 +201,19 @@ static node_t *find_in_list(lb_t *lb,
 	return found ? node : NULL;
 }
 
-lb_t *init_list(int elem_size)
+lb_t *init_list(unsigned int elem_size)
 {
 	assert(elem_size);
 
 	if (!elem_size)
 	{
 		printf("ERROR: init_list(): Node size is zero\n");
+		return NULL;
+	}
+
+	if (elem_size < 0)
+	{
+		printf("ERROR: init_list(): Node size is less than zero\n");
 		return NULL;
 	}
 

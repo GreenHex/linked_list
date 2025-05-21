@@ -22,21 +22,22 @@ typedef enum err_t
 	ERR_OK = 0,
 	ERR_NOT_INIT = -1,
 	ERR_NODE_SIZE_ZERO = -2,
-	ERR_NODE_PTR_IS_NULL = -3,
-	ERR_CMP_FUNC_NDEF = -4,
-	ERR_PRT_FUNC_NDEF = -5,
-	ERR_NO_NODES = -6,
-	ERR_NODE_IN_LIST = -7,
-	ERR_UNKNOWN = -8,
-	ERR_NO_FIRST_NODE = -9,
-	ERR_NO_LAST_NODE = -10
-
+	ERR_NODE_SIZE_NEGATIVE = -3,
+	ERR_NODE_PTR_IS_NULL = -4,
+	ERR_CMP_FUNC_NDEF = -5,
+	ERR_PRT_FUNC_NDEF = -6,
+	ERR_NO_NODES = -7,
+	ERR_NODE_IN_LIST = -8,
+	ERR_UNKNOWN = -9,
+	ERR_NO_FIRST_NODE = -10,
+	ERR_NO_LAST_NODE = -11
 } err_t;
 
 static const char *err_strerr[] = {
 	"No error",
 	"List not initialized",
 	"Node size is zero",
+	"Node size is less than zero"
 	"Node ptr is NULL",
 	"compare_func() function not defined",
 	"prt_func() is not defined",
@@ -44,7 +45,8 @@ static const char *err_strerr[] = {
 	"Node already in list"
 	"Unknown error",
 	"No first node, this is serious",
-	"No last node, this is serious"};
+	"No last node, this is serious",
+};
 
 typedef struct node_t
 {
@@ -63,7 +65,7 @@ typedef struct lb_t
 	node_t *last;
 } lb_t;
 
-lb_t *init_list(int elem_size);
+lb_t *init_list(unsigned int elem_size);
 int add_to_list(lb_t *lb,
 				void *ptr);
 int remove_from_list(lb_t *lb,
