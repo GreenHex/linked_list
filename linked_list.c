@@ -30,8 +30,8 @@ int compare_function(void *ptr1,
 					 int elem_size);
 
 // returns number of items in list
-int add_to_list(lb_t *lb,
-				void *ptr)
+unsigned int add_to_list(lb_t *lb,
+						 void *ptr)
 {
 	if (lb == NULL)
 	{
@@ -82,8 +82,8 @@ int add_to_list(lb_t *lb,
 }
 
 // returns number of items in list
-int remove_from_list(lb_t *lb,
-					 void *ptr)
+unsigned int remove_from_list(lb_t *lb,
+							  void *ptr)
 {
 	if (lb == NULL)
 	{
@@ -230,7 +230,7 @@ lb_t *init_list(unsigned int elem_size)
 	return lb;
 }
 
-int clear_list(lb_t *lb)
+err_t clear_list(lb_t *lb)
 {
 	if (lb == NULL)
 	{
@@ -269,10 +269,10 @@ int clear_list(lb_t *lb)
 #endif /* DEBUG */
 	}
 
-	return lb->num_nodes;
+	return ERR_OK;
 }
 
-int free_list(lb_t *lb)
+err_t free_list(lb_t *lb)
 {
 	if (lb == NULL)
 	{
@@ -293,10 +293,10 @@ int free_list(lb_t *lb)
 	free(lb);
 	lb = NULL;
 
-	return 0;
+	return ERR_OK;
 }
 
-int num_nodes_in_list(lb_t *lb)
+unsigned int num_nodes_in_list(lb_t *lb)
 {
 	return lb->num_nodes;
 }
@@ -335,7 +335,7 @@ int print_list(lb_t *lb,
 			node = node->next;
 		}
 	}
-	printf("[%d]\n", lb->num_nodes);
+	printf("[%d %s]\n", lb->num_nodes, lb->num_nodes == 1 ? "node" : "nodes");
 
 #ifdef DEBUG
 	struct mallinfo2 m2 = mallinfo2();
@@ -347,8 +347,8 @@ int print_list(lb_t *lb,
 	return ERR_OK;
 }
 
-int set_print_list_function(lb_t *lb,
-							void (*prt_func)(void *ptr))
+err_t set_print_list_function(lb_t *lb,
+							  void (*prt_func)(void *ptr))
 {
 	if (lb == NULL)
 	{
@@ -374,8 +374,8 @@ int set_print_list_function(lb_t *lb,
 }
 
 // compare_function() should return 0 on match
-int set_compare_function(lb_t *lb,
-						 int (*cmp_func)(void *ptr1, void *ptr2, int elem_size))
+err_t set_compare_function(lb_t *lb,
+						   int (*cmp_func)(void *ptr1, void *ptr2, int elem_size))
 {
 	if (lb == NULL)
 	{

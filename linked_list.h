@@ -57,8 +57,8 @@ typedef struct node_t
 
 typedef struct lb_t
 {
-	int num_nodes;
-	int size_of_elem;
+	unsigned int num_nodes;
+	unsigned int size_of_elem;
 	int (*cmp_func)(void *ptr1, void *ptr2, int elem_size);
 	void (*prt_func)(void *ptr);
 	node_t *head;
@@ -66,19 +66,19 @@ typedef struct lb_t
 } lb_t;
 
 lb_t *init_list(unsigned int elem_size);
-int add_to_list(lb_t *lb,
-				void *ptr);
-int remove_from_list(lb_t *lb,
-					 void *ptr);
-int clear_list(lb_t *lb);
-int free_list(lb_t *lb);
-int num_nodes_in_list(lb_t *lb);
+unsigned int add_to_list(lb_t *lb,
+						 void *ptr);
+unsigned int remove_from_list(lb_t *lb,
+							  void *ptr);
+err_t clear_list(lb_t *lb);
+err_t free_list(lb_t *lb);
+unsigned int num_nodes_in_list(lb_t *lb);
 int print_list(lb_t *lb,
 			   void (*prt_func)(void *ptr));
-int set_print_list_function(lb_t *lb,
-							void (*prt_func)(void *ptr));
-int set_compare_function(lb_t *lb,
-						 int (*cmp_func)(void *ptr1, void *ptr2, int elem_size));
+err_t set_print_list_function(lb_t *lb,
+							  void (*prt_func)(void *ptr));
+err_t set_compare_function(lb_t *lb,
+						   int (*cmp_func)(void *ptr1, void *ptr2, int elem_size));
 
 const char *err_to_str(err_t err);
 
