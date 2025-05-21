@@ -7,3 +7,6 @@ _builds
 linked_list
 linked_list*
 linked_list*.*
+node_modules
+package-lock.json
+package.json
