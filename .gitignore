@@ -3,3 +3,5 @@
 test
 main.c
 .vscode
+_builds
+linked_list
