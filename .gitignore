@@ -5,3 +5,5 @@ main.c
 .vscode
 _builds
 linked_list
+linked_list*
+linked_list*.*
