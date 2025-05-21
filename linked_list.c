@@ -105,12 +105,12 @@ unsigned int remove_from_list(lb_t *lb,
 	{
 		if (node == lb->head) // 1st element
 		{
-			if (node->next)
+			if (node->next != NULL)
 			{
 				lb->head = node->next;
 				lb->head->prev = NULL;
 			}
-			else
+			else // ...is also the last
 			{
 				lb->head = NULL;
 				lb->last = NULL;
@@ -127,11 +127,19 @@ unsigned int remove_from_list(lb_t *lb,
 			node->next->prev = node->prev;
 		}
 
-		free(node->ptr);
-		node->ptr = NULL;
+		assert(node->ptr);
+		if (node->ptr != NULL)
+		{
+			free(node->ptr);
+			node->ptr = NULL;
+		}
 
-		free(node);
-		node = NULL;
+		assert(node);
+		if (node != NULL)
+		{
+			free(node);
+			node = NULL;
+		}
 
 		--(lb->num_nodes);
 	}
@@ -250,8 +258,12 @@ err_t clear_list(lb_t *lb)
 		{
 			node_t *new_head = lb->head->next;
 
-			free(lb->head->ptr);
-			lb->head->ptr = NULL;
+			assert(lb->head->ptr);
+			if (lb->head->ptr != NULL)
+			{
+				free(lb->head->ptr);
+				lb->head->ptr = NULL;
+			}
 
 			free(lb->head);
 			lb->head = NULL;
