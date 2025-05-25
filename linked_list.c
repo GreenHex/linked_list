@@ -24,7 +24,7 @@ typedef enum s_d
 static node_t *find_in_list(lb_t *lb,
 							void *ptr,
 							search_direction direction,
-							int (*cmp_func)(void *ptr1, void *ptr2, int elem_size));
+							int (*compare_func)(void *ptr1, void *ptr2, int elem_size));
 int compare_function(void *ptr1,
 					 void *ptr2,
 					 int elem_size);
@@ -150,7 +150,7 @@ unsigned int remove_from_list(lb_t *lb,
 static node_t *find_in_list(lb_t *lb,
 							void *ptr,
 							search_direction direction,
-							int (*cmp_func)(void *ptr1, void *ptr2, int elem_size))
+							int (*compare_func)(void *ptr1, void *ptr2, int elem_size))
 {
 	bool found = false;
 
@@ -179,18 +179,17 @@ static node_t *find_in_list(lb_t *lb,
 
 	node_t *node = (direction == REV) ? lb->last : lb->head;
 
-	if (cmp_func == NULL)
+	if (compare_func == NULL)
 	{
-		cmp_func = lb->cmp_func;
+		compare_func = lb->compare_func;
 	}
 
-	if (cmp_func == NULL)
+	if (compare_func == NULL)
 	{
-		cmp_func = compare_function;
+		compare_func = compare_function;
 		printf("find_in_list(): Compare function not defined, using memcmp()\n");
 	}
-
-	assert(cmp_func);
+	assert(compare_func);
 
 	while (node)
 	{
@@ -199,7 +198,7 @@ static node_t *find_in_list(lb_t *lb,
 		printf("find_in_list(): compare_function() result: %d\n", compare_function(node->ptr, ptr, lb->size_of_elem));
 #endif /* DEBUG */
 
-		if (!cmp_func(node->ptr, ptr, lb->size_of_elem))
+		if (!compare_func(node->ptr, ptr, lb->size_of_elem))
 		{
 			found = true;
 			break;
@@ -314,7 +313,7 @@ unsigned int num_nodes_in_list(lb_t *lb)
 }
 
 int print_list(lb_t *lb,
-			   void (*prt_func)(void *ptr))
+			   void (*print_func)(void *ptr))
 {
 	if (lb == NULL)
 	{
@@ -324,16 +323,16 @@ int print_list(lb_t *lb,
 
 	assert(lb);
 
-	if (prt_func == NULL)
+	if (print_func == NULL)
 	{
-		prt_func = lb->prt_func;
+		print_func = lb->print_func;
 	}
 
-	assert(prt_func);
+	assert(print_func);
 
-	if (prt_func == NULL)
+	if (print_func == NULL)
 	{
-		printf("ERROR: print_list(): Cannot print list, prt_func() is undefined\n");
+		printf("ERROR: print_list(): Cannot print list, print_func() is undefined\n");
 		return ERR_PRT_FUNC_NDEF;
 	}
 
@@ -343,7 +342,7 @@ int print_list(lb_t *lb,
 
 		while (node)
 		{
-			(*prt_func)(node->ptr);
+			(*print_func)(node->ptr);
 			node = node->next;
 		}
 	}
@@ -360,7 +359,7 @@ int print_list(lb_t *lb,
 }
 
 err_t set_print_list_function(lb_t *lb,
-							  void (*prt_func)(void *ptr))
+							  void (*print_func)(void *ptr))
 {
 	if (lb == NULL)
 	{
@@ -369,16 +368,16 @@ err_t set_print_list_function(lb_t *lb,
 	}
 	assert(lb);
 
-	if (prt_func == NULL)
+	if (print_func == NULL)
 	{
-		printf("ERROR: set_print_list_function(): prt_func() is undefined\n");
+		printf("ERROR: set_print_list_function(): print_func() is undefined\n");
 		return ERR_PRT_FUNC_NDEF;
 	}
-	assert(prt_func);
+	assert(print_func);
 
-	if (prt_func)
+	if (print_func)
 	{
-		lb->prt_func = prt_func;
+		lb->print_func = print_func;
 	}
 
 	return ERR_OK;
@@ -386,19 +385,24 @@ err_t set_print_list_function(lb_t *lb,
 
 // compare_function() should return 0 on match
 err_t set_compare_function(lb_t *lb,
-						   int (*cmp_func)(void *ptr1, void *ptr2, int elem_size))
+						   int (*compare_func)(void *ptr1, void *ptr2, int elem_size))
 {
 	if (lb == NULL)
 	{
 		printf("ERROR: set_compare_function(): List not initialized\n");
 		return ERR_NOT_INIT;
 	}
-
 	assert(lb);
 
-	if (lb && cmp_func)
+	if (compare_func == NULL)
 	{
-		lb->cmp_func = cmp_func;
+		printf("ERROR: set_compare_function(): compare_func() function not defined\n");
+		return ERR_CMP_FUNC_NDEF;
+	}
+	assert(compare_func);
+	if (compare_func)
+	{
+		lb->compare_func = compare_func;
 	}
 
 	return ERR_OK;

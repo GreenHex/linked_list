@@ -40,7 +40,7 @@ static const char *err_strerr[] = {
 	"Node size is less than zero"
 	"Node ptr is NULL",
 	"compare_func() function not defined",
-	"prt_func() is not defined",
+	"print_func() is not defined",
 	"List has no nodes",
 	"Node already in list"
 	"Unknown error",
@@ -59,8 +59,8 @@ typedef struct lb_t
 {
 	unsigned int num_nodes;
 	unsigned int size_of_elem;
-	int (*cmp_func)(void *ptr1, void *ptr2, int elem_size);
-	void (*prt_func)(void *ptr);
+	int (*compare_func)(void *ptr1, void *ptr2, int elem_size);
+	void (*print_func)(void *ptr);
 	node_t *head;
 	node_t *last;
 } lb_t;
@@ -74,11 +74,11 @@ err_t clear_list(lb_t *lb);
 err_t free_list(lb_t *lb);
 unsigned int num_nodes_in_list(lb_t *lb);
 int print_list(lb_t *lb,
-			   void (*prt_func)(void *ptr));
+			   void (*print_func)(void *ptr));
 err_t set_print_list_function(lb_t *lb,
-							  void (*prt_func)(void *ptr));
+							  void (*print_func)(void *ptr));
 err_t set_compare_function(lb_t *lb,
-						   int (*cmp_func)(void *ptr1, void *ptr2, int elem_size));
+						   int (*compare_func)(void *ptr1, void *ptr2, int elem_size));
 
 const char *err_to_str(err_t err);
 
