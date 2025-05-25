@@ -367,13 +367,7 @@ err_t set_print_list_function(lb_t *lb,
 		printf("ERROR: set_print_list_function(): List not initialized\n");
 		return ERR_NOT_INIT;
 	}
-
 	assert(lb);
-
-	if (prt_func)
-	{
-		lb->prt_func = prt_func;
-	}
 
 	if (prt_func == NULL)
 	{
@@ -381,6 +375,11 @@ err_t set_print_list_function(lb_t *lb,
 		return ERR_PRT_FUNC_NDEF;
 	}
 	assert(prt_func);
+
+	if (prt_func)
+	{
+		lb->prt_func = prt_func;
+	}
 
 	return ERR_OK;
 }
