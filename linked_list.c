@@ -309,6 +309,13 @@ err_t free_list(lb_t *lb)
 
 unsigned int num_nodes_in_list(lb_t *lb)
 {
+	if (lb == NULL)
+	{
+		printf("ERROR: clear_list(): List not initialized\n");
+		return ERR_NOT_INIT;
+	}
+	assert(lb);
+
 	return lb->num_nodes;
 }
 

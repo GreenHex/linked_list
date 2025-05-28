@@ -50,6 +50,9 @@ int test(void)
 
 	s3.c = 'i';
 	add_to_list(lb, &s3);
+
+	printf("Num of items in list: %d\n", num_nodes_in_list(lb));
+
 	print_list(lb, pr_fn);
 
 	remove_from_list(lb, &s3);
